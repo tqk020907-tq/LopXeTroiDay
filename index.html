@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quang Truc News - Lốp Xe Trỗi Dậy</title>
+    <style>
+        /* Hiệu ứng màn hình chào để kích hoạt âm thanh */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #d8d2c5;
+            z-index: 1000;
+            cursor: pointer;
+            font-family: serif;
+            font-size: 24pt;
+            transition: opacity 1s ease;
+        }
+
+        body {
+            background-color: #d8d2c5;
+            font-family: "Times New Roman", Times, serif;
+            color: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            opacity: 0; /* Ban đầu ẩn để làm hiệu ứng fade-in */
+            transition: opacity 2s ease;
+        }
+
+        /* Khi web sẵn sàng sẽ hiện lên */
+        body.loaded {
+            opacity: 1;
+        }
+
+        .newspaper-container {
+            background-color: #e6e0d4;
+            width: 800px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+            border: 1px solid #c5bdad;
+        }
+
+        .header { text-align: center; border-bottom: 2px solid #333; margin-bottom: 20px; }
+        .main-title { font-size: 56pt; font-weight: bold; margin: 10px 0; text-transform: uppercase; }
+        .sub-header { text-align: center; font-size: 18pt; font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .content-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+        .main-image-box { border: 1px solid #333; padding: 15px; background-color: #f0ede6; text-align: center; }
+        .main-image-box img { width: 100%; border: 1px solid #000; }
+        .name-caption { color: #ffcc00; font-size: 20pt; font-weight: bold; margin-top: 10px; text-shadow: 1px 1px 2px #000; }
+
+        .sidebar { border-left: 1px solid #333; padding-left: 20px; }
+        .profile-pic { width: 150px; height: 180px; border: 5px double #333; margin-bottom: 10px; object-fit: cover; }
+        
+        .article-section { margin-top: 30px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+        .article-text { font-size: 13pt; text-align: justify; line-height: 1.3; }
+        .vintage-photo { border: 10px solid; border-image: linear-gradient(to right, #a1d9d4, #f7b4b4, #b4e3b4) 1; padding: 5px; text-align: center; position: relative;}
+        .vintage-label { background-color: #33cccc; color: white; display: inline-block; padding: 5px 15px; font-weight: bold; transform: translateY(-15px); border-radius: 5px; }
+
+        .footer-note { margin-top: 30px; text-align: center; font-size: 10pt; font-style: italic; border-top: 1px solid #333; padding-top: 10px; }
+        
+        /* Ẩn trình phát nhạc mặc định vì bạn muốn nó "tự nói" */
+        #bgAudio { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-overlay" onclick="startWeb()">
+        ĐANG TẢI BẢN TIN... <br> (Nhấn để đọc)
+    </div>
+
+    <audio id="bgAudio" loop>
+        <source src="nhac.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="newspaper-container">
+        <div class="header">
+            <div style="font-size: 14pt;">*<br>QUANG TRUC NEWS</div>
+            <h1 class="main-title">LỐP XE TRỖI DẬY!</h1>
+        </div>
+
+        <div class="sub-header">'LỐP XE TRỖI DẬY' TƯỞNG CHỪNG ĐÂY CHỈ LÀ MỘT CÂU CÓ HÀM Ý</div>
+
+        <div class="content-grid">
+            <div class="main-image-box">
+                <img src="main.jpg" alt="Phạm Cao Đăng Khoa">
+                <div class="name-caption">PHẠM CAO ĐĂNG KHOA</div>
+            </div>
+
+            <div class="sidebar">
+                <img src="profile.jpg" alt="Profile" class="profile-pic">
+                <div style="font-size: 11pt;">
+                    <p><strong>TIỂU SỬ:</strong></p>
+                    <p>TÊN: PHẠM CAO ĐĂNG KHOA</p>
+                    <p>NGÀY SINH: 20/3/2007</p>
+                    <p>TRÌNH ĐỘ HỌC VẤN: CAO ĐẲNG</p>
+                    <p>BIỆT DANH: THÁI TỬ GIA QUẬN 7</p>
+                    <p>HỌC VỊ: TIẾN SĨ CÔNG NGHỆ Ô TÔ</p>
+                    <p>TÌNH TRẠNG: ĐỘC THÂN</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="article-section">
+            <div class="article-text">
+                <p><b>YÊU ĐƠN PHƯƠNG QUÁ SẼ DẪN ĐẾN CHỨNG ẢO GIÁC Ở GIỚI TRẺ!</b></p>
+                Chắc hẳn khi mọi người nhìn bức ảnh trên tờ báo này chắc hẳn ai cũng biết anh
+                 ấy là ai. Một trong những thiếu gia bậc nhât sài thành tọa lạc tại quận 7
+                 tiểu sử với những thú vui xa hoa truy lạc những bữa tiệc nhậu thâu đêm tưng bừng
+                 nhưng tiến tích lẫy lừng đấy trong thâm tâm anh là một người rất yếu lòng. Mới đây
+                 một bạn dấu tên là Trần Lê Mai đã giới thiệu cho anh ấy bạn Tâm anh ấy vừa nhìn qua 
+                 màn hình đã yêu cô ấy mất rồi. Cô ấy rất có điểm chung với anh nên anh rất thích cô
+                 gái đấy nhưng trớ trêu thay anh chỉ yêu cô ấy mà không nhận được phản hồi tích tực từ
+                 phía cô gái đấy! Điểu đó khiến anh rơi vào buồn bã stress căng thẳng có những đêm anh ấy 
+                 tự hát nhạc buồn suy tư nhốt mình trong căn phòng nhỏ của mình.
+            </div>
+
+            <div class="vintage-photo">
+                <img src="group.jpg" alt="Thời niên thiếu" style="width:100%">
+                <div class="vintage-label">THỜI NIÊN THIẾU</div>
+            </div>
+        </div>
+
+        <div class="footer-note">THÔNG TIN DƯỚI ĐÂY CHỈ LÀ MINH HOẠ.</div>
+    </div>
+
+    <script>
+        function startWeb() {
+            // 1. Phát nhạc
+            var audio = document.getElementById("bgAudio");
+            audio.play();
+
+            // 2. Ẩn màn hình chào
+            var overlay = document.getElementById("welcome-overlay");
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 1000);
+
+            // 3. Hiển thị nội dung web với hiệu ứng fade-in
+            document.body.classList.add("loaded");
+        }
+    </script>
+</body>
+</html>
